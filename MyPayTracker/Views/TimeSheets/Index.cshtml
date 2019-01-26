@@ -15,6 +15,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.TimeIn)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoursWorked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +32,15 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.TimeIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursWorked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.DisplayName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

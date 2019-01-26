@@ -10,8 +10,8 @@ using MyPayTracker.Data;
 namespace MyPayTracker.Migrations
 {
     [DbContext(typeof(TimeSheetDbContext))]
-    [Migration("20190124220851_AddEntities")]
-    partial class AddEntities
+    [Migration("20190125235426_InitializeDB")]
+    partial class InitializeDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,8 @@ namespace MyPayTracker.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DisplayName");
 
                     b.Property<string>("FirstName");
 
@@ -42,9 +44,13 @@ namespace MyPayTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EmployeeID");
+                    b.Property<int>("EmployeeID");
+
+                    b.Property<int>("HoursWorked");
 
                     b.Property<DateTime>("TimeIn");
+
+                    b.Property<DateTime>("TimeOut");
 
                     b.HasKey("ID");
 
@@ -57,7 +63,8 @@ namespace MyPayTracker.Migrations
                 {
                     b.HasOne("MyPayTracker.Models.Employee", "Employee")
                         .WithMany("TimeSheets")
-                        .HasForeignKey("EmployeeID");
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

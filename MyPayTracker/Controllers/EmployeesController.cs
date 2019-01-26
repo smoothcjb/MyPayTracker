@@ -54,7 +54,7 @@ namespace MyPayTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,DisplayName")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace MyPayTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,DisplayName")] Employee employee)
         {
             if (id != employee.ID)
             {

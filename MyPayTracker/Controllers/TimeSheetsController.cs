@@ -22,7 +22,8 @@ namespace MyPayTracker.Controllers
         // GET: TimeSheets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TimeSheets.ToListAsync());
+            var timeSheets = _context.TimeSheets.Include(t => t.Employee);
+            return View(await timeSheets.ToListAsync());
         }
 
         // GET: TimeSheets/Details/5
@@ -34,6 +35,7 @@ namespace MyPayTracker.Controllers
             }
 
             var timeSheet = await _context.TimeSheets
+                .Include(t => t.Employee)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (timeSheet == null)
             {
@@ -46,6 +48,7 @@ namespace MyPayTracker.Controllers
         // GET: TimeSheets/Create
         public IActionResult Create()
         {
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "DisplayName");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace MyPayTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,TimeIn")] TimeSheet timeSheet)
+        public async Task<IActionResult> Create([Bind("ID,TimeIn,TimeOut,HoursWorked,EmployeeID")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace MyPayTracker.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "ID", timeSheet.EmployeeID);
             return View(timeSheet);
         }
 
@@ -78,6 +82,7 @@ namespace MyPayTracker.Controllers
             {
                 return NotFound();
             }
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "DisplayName", timeSheet.EmployeeID);
             return View(timeSheet);
         }
 
@@ -86,7 +91,7 @@ namespace MyPayTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,TimeIn")] TimeSheet timeSheet)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,TimeIn,TimeOut,HoursWorked,EmployeeID")] TimeSheet timeSheet)
         {
             if (id != timeSheet.ID)
             {
@@ -113,6 +118,7 @@ namespace MyPayTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "ID", timeSheet.EmployeeID);
             return View(timeSheet);
         }
 
@@ -125,6 +131,7 @@ namespace MyPayTracker.Controllers
             }
 
             var timeSheet = await _context.TimeSheets
+                .Include(t => t.Employee)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (timeSheet == null)
             {

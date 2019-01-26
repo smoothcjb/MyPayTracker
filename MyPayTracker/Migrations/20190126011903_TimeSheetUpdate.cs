@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MyPayTracker.Data.Migrations
+namespace MyPayTracker.Migrations
 {
-    public partial class InitializeDB : Migration
+    public partial class TimeSheetUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

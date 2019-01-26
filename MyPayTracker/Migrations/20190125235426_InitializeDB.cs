@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyPayTracker.Migrations
 {
-    public partial class AddEntities : Migration
+    public partial class InitializeDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,8 @@ namespace MyPayTracker.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    DisplayName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,7 +30,9 @@ namespace MyPayTracker.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeIn = table.Column<DateTime>(nullable: false),
-                    EmployeeID = table.Column<int>(nullable: true)
+                    TimeOut = table.Column<DateTime>(nullable: false),
+                    HoursWorked = table.Column<int>(nullable: false),
+                    EmployeeID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +42,7 @@ namespace MyPayTracker.Migrations
                         column: x => x.EmployeeID,
                         principalTable: "Employees",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

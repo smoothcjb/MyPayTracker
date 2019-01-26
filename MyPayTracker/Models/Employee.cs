@@ -13,6 +13,8 @@ namespace MyPayTracker.Models
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Display(Name = "Display Name")]
+        public string DisplayName { get; set; }
 
         public IList<TimeSheet> TimeSheets { get; set; }    
 
