@@ -19,7 +19,7 @@ namespace MyPayTracker.Controllers
             _context = context;
         }
 
-        // GET: Employees
+       
         public async Task<IActionResult> Index()
         {
             return View(await _context.Employees.ToListAsync());
@@ -49,9 +49,6 @@ namespace MyPayTracker.Controllers
             return View();
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,DisplayName")] Employee employee)
@@ -81,9 +78,6 @@ namespace MyPayTracker.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,DisplayName")] Employee employee)
@@ -116,7 +110,6 @@ namespace MyPayTracker.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +127,7 @@ namespace MyPayTracker.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

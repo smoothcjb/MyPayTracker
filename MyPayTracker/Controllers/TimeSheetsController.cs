@@ -53,19 +53,25 @@ namespace MyPayTracker.Controllers
         }
 
         // POST: TimeSheets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,TimeIn,TimeOut,HoursWorked,EmployeeID")] TimeSheet timeSheet)
+        public async Task<IActionResult> Create(int id, DateTime timeIn, DateTime timeOut, int employeeId )
         {
-            if (ModelState.IsValid)
+            TimeSheet timeSheet = new TimeSheet
             {
+                ID = id,
+                TimeIn = timeIn,
+                TimeOut = timeOut,
+                HoursWorked = timeOut - timeIn,
+                EmployeeID = employeeId
+            };
+            if (ModelState.IsValid)
+            {   
                 _context.Add(timeSheet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect($"Details/{timeSheet.ID}");
             }
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "ID", timeSheet.EmployeeID);
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "ID", "DisplayName", timeSheet.EmployeeID);
             return View(timeSheet);
         }
 
@@ -86,9 +92,6 @@ namespace MyPayTracker.Controllers
             return View(timeSheet);
         }
 
-        // POST: TimeSheets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,TimeIn,TimeOut,HoursWorked,EmployeeID")] TimeSheet timeSheet)

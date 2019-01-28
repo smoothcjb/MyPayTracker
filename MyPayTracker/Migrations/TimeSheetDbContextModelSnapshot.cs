@@ -44,7 +44,7 @@ namespace MyPayTracker.Migrations
 
                     b.Property<int>("EmployeeID");
 
-                    b.Property<float>("HoursWorked");
+                    b.Property<TimeSpan>("HoursWorked");
 
                     b.Property<DateTime>("TimeIn");
 

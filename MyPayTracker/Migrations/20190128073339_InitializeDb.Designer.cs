@@ -10,8 +10,8 @@ using MyPayTracker.Data;
 namespace MyPayTracker.Migrations
 {
     [DbContext(typeof(TimeSheetDbContext))]
-    [Migration("20190125235426_InitializeDB")]
-    partial class InitializeDB
+    [Migration("20190128073339_InitializeDb")]
+    partial class InitializeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace MyPayTracker.Migrations
 
                     b.Property<int>("EmployeeID");
 
-                    b.Property<int>("HoursWorked");
+                    b.Property<TimeSpan>("HoursWorked");
 
                     b.Property<DateTime>("TimeIn");
 

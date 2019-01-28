@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyPayTracker.Migrations
 {
-    public partial class InitializeDB : Migration
+    public partial class InitializeDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace MyPayTracker.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TimeIn = table.Column<DateTime>(nullable: false),
                     TimeOut = table.Column<DateTime>(nullable: false),
-                    HoursWorked = table.Column<int>(nullable: false),
+                    HoursWorked = table.Column<TimeSpan>(nullable: false),
                     EmployeeID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
