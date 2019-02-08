@@ -11,6 +11,7 @@ namespace MyPayTracker.Data
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<TimeSheet> TimeSheets { get; set; }
+         
 
         public TimeSheetDbContext(DbContextOptions<TimeSheetDbContext> options) 
                     : base(options)

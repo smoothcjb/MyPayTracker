@@ -4,11 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Welcome to MyPayTracker: </h2>
+<h2>Welcome to MyPayTracker: @ViewBag.date</h2>
+<br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -42,7 +40,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Employee.DisplayName)
             </td>
-            <td>
+           <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
@@ -51,3 +49,6 @@
 }
     </tbody>
 </table>
+<p>
+    <a asp-action="Create">Create a new entry</a>
+</p>

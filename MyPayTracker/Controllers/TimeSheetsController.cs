@@ -22,6 +22,7 @@ namespace MyPayTracker.Controllers
         // GET: TimeSheets
         public async Task<IActionResult> Index()
         {
+            ViewBag.date = DateTime.Now;
             var timeSheets = _context.TimeSheets.Include(t => t.Employee);
             return View(await timeSheets.ToListAsync());
         }
@@ -158,6 +159,17 @@ namespace MyPayTracker.Controllers
         private bool TimeSheetExists(int id)
         {
             return _context.TimeSheets.Any(e => e.ID == id);
+        }
+
+        public async Task<IActionResult> Search(DateTime From, DateTime To, int id)
+        {
+
+            var searchResults = _context.TimeSheets.Include(t => t.Employee)
+            .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
+            .Where(e => e.EmployeeID == id);
+
+            ViewBag.employees = _context.Employees.ToList();
+            return View(await searchResults.ToListAsync());
         }
     }
 }

@@ -36,6 +36,25 @@ namespace MyPayTracker.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("MyPayTracker.Models.Search", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID");
+
+                    b.Property<DateTime>("From");
+
+                    b.Property<DateTime>("To");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("Searches");
+                });
+
             modelBuilder.Entity("MyPayTracker.Models.TimeSheet", b =>
                 {
                     b.Property<int>("ID")
@@ -55,6 +74,14 @@ namespace MyPayTracker.Migrations
                     b.HasIndex("EmployeeID");
 
                     b.ToTable("TimeSheets");
+                });
+
+            modelBuilder.Entity("MyPayTracker.Models.Search", b =>
+                {
+                    b.HasOne("MyPayTracker.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyPayTracker.Models.TimeSheet", b =>
