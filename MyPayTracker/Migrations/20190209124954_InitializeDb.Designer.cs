@@ -10,7 +10,7 @@ using MyPayTracker.Data;
 namespace MyPayTracker.Migrations
 {
     [DbContext(typeof(TimeSheetDbContext))]
-    [Migration("20190128073339_InitializeDb")]
+    [Migration("20190209124954_InitializeDb")]
     partial class InitializeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

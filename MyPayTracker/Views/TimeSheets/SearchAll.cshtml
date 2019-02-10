@@ -8,7 +8,7 @@
 
 <div>
     <br />
-    <form asp-controller="TimeSheets" asp-action="Search" asp-route-id = @employee.ID method="post">
+    <form asp-controller="TimeSheets" asp-action="Search" asp-route-id="All" method="post">
 
         <label> Date(From)</label>
         <input type="date" name="From" />
@@ -17,12 +17,12 @@
         <label>Employee</label>
         <select name="id">
             @foreach (var employee in ViewBag.employees)
-         {
-            <option value=@employee.ID>@employee.DisplayName</option>
-         }
+            {
+                <option value=@employee.ID>@employee.DisplayName</option>
+            }
         </select>
         <label>All</label>
-        <input type="checkbox" name="All" value="All"/>
+        <input type="checkbox" name="All" />
 
         <input type="submit" value="Search" />
     </form>
@@ -53,25 +53,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeOut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoursWorked)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.DisplayName)
-            </td>
-            @*<td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>*@
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeIn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeOut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoursWorked)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.DisplayName)
+                </td>
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>*@
+            </tr>
         }
     </tbody>
 </table>

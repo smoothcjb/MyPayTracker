@@ -160,16 +160,41 @@ namespace MyPayTracker.Controllers
         {
             return _context.TimeSheets.Any(e => e.ID == id);
         }
-
-        public async Task<IActionResult> Search(DateTime From, DateTime To, int id)
+       // [Route("TimeSheets/Search/All")]
+        public async Task<IActionResult> SearchAll(DateTime From, DateTime To, string All)
         {
 
             var searchResults = _context.TimeSheets.Include(t => t.Employee)
-            .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
-            .Where(e => e.EmployeeID == id);
+            .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To);
 
             ViewBag.employees = _context.Employees.ToList();
+            //return View(await searchResults.ToListAsync());
+           
             return View(await searchResults.ToListAsync());
+
+        }
+       
+        public async Task<IActionResult> Search(DateTime From, DateTime To, int id, string All)
+        {
+            
+
+            if (All=="All")
+            {
+               await SearchAll(From,To,All);
+               return View();
+            }
+            else
+            {
+                var searchResults = _context.TimeSheets.Include(t => t.Employee)
+               .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
+               .Where(e => e.EmployeeID == id);
+
+                ViewBag.employees = _context.Employees.ToList();
+                return View(await searchResults.ToListAsync());
+            }
+            
+
+
         }
     }
 }
