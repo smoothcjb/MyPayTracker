@@ -23,7 +23,12 @@ namespace MyPayTracker.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.date = DateTime.Now;
-            var timeSheets = _context.TimeSheets.Include(t => t.Employee);
+            var timeSheets = _context.TimeSheets
+                .Include(t => t.Employee)
+                .OrderByDescending(s => s.TimeIn);
+
+
+
             return View(await timeSheets.ToListAsync());
         }
 
@@ -56,7 +61,7 @@ namespace MyPayTracker.Controllers
         // POST: TimeSheets/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, DateTime timeIn, DateTime timeOut, int employeeId )
+        public async Task<IActionResult> Create(int id, DateTime timeIn, DateTime timeOut, int employeeId)
         {
             TimeSheet timeSheet = new TimeSheet
             {
@@ -67,7 +72,7 @@ namespace MyPayTracker.Controllers
                 EmployeeID = employeeId
             };
             if (ModelState.IsValid)
-            {   
+            {
                 _context.Add(timeSheet);
                 await _context.SaveChangesAsync();
                 return Redirect($"Details/{timeSheet.ID}");
@@ -160,39 +165,44 @@ namespace MyPayTracker.Controllers
         {
             return _context.TimeSheets.Any(e => e.ID == id);
         }
-       // [Route("TimeSheets/Search/All")]
-        public async Task<IActionResult> SearchAll(DateTime From, DateTime To, string All)
+
+        [HttpGet]
+        public async Task<IActionResult> Search()
         {
+            var employees = _context.Employees;
+            await employees.ToListAsync();
 
-            var searchResults = _context.TimeSheets.Include(t => t.Employee)
-            .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To);
+            ViewBag.employees = employees;
 
-            ViewBag.employees = _context.Employees.ToList();
-            //return View(await searchResults.ToListAsync());
-           
-            return View(await searchResults.ToListAsync());
-
+            return View();
         }
-       
+        [HttpPost]
         public async Task<IActionResult> Search(DateTime From, DateTime To, int id, string All)
         {
-            
+            ViewBag.employees = _context.Employees.ToList();
 
-            if (All=="All")
+            if (All == "All" || id == 1)
+
             {
-               await SearchAll(From,To,All);
-               return View();
-            }
-            else
-            {
+                ViewBag.id = All;
                 var searchResults = _context.TimeSheets.Include(t => t.Employee)
-               .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
-               .Where(e => e.EmployeeID == id);
-
-                ViewBag.employees = _context.Employees.ToList();
+                .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
+                .OrderByDescending(s => s.TimeIn);
+                
                 return View(await searchResults.ToListAsync());
             }
-            
+            else if (id > 1)
+            {
+                ViewBag.id = id;
+                var searchResults = _context.TimeSheets.Include(t => t.Employee)
+               .Where(i => i.TimeIn.Date >= From && i.TimeOut.Date <= To)
+               .Where(e => e.EmployeeID == id)
+               .OrderByDescending(s => s.TimeIn);
+
+                return View(await searchResults.ToListAsync());
+
+            }else
+            return RedirectToAction("Search");
 
 
         }

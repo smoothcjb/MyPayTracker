@@ -6,31 +6,33 @@
 }
 <h2>Search Time Sheets</h2>
 
-<div>
-    <br />
-    <form asp-controller="TimeSheets" asp-action="Search" asp-route-id = @employee.ID method="post">
+<form asp-controller="TimeSheets" asp-action="Search" asp-route-id="@ViewBag.id" method="post">
+ <label> Date(From)</label>
+   <input type="date" name="From" required />
+ <label>Date(To)</label>
+   <input type="date" name="To" required/>
+ <label>Employee</label>
 
-        <label> Date(From)</label>
-        <input type="date" name="From" />
-        <label>Date(To)</label>
-        <input type="date" name="To" />
-        <label>Employee</label>
-        <select name="id">
-            @foreach (var employee in ViewBag.employees)
+ <select name="id" id="id">
+     @foreach (var employee in ViewBag.employees)
          {
             <option value=@employee.ID>@employee.DisplayName</option>
          }
-        </select>
-        <label>All</label>
-        <input type="checkbox" name="All" value="All"/>
+ </select>
+ <label>All</label>
+   <input type="checkbox" name="All" value="All"/>
 
-        <input type="submit" value="Search" />
-    </form>
-</div>
+   <input type="submit" value="Search" />
+ </form>   
 
 <hr />
 <h3>Results</h3>
-<br />
+@if (Model == null)
+{
+    <h5>No results yet.</h5>
+}
+else
+{
 
 <table class="table">
     <thead>
@@ -75,3 +77,4 @@
         }
     </tbody>
 </table>
+}
